@@ -1,0 +1,111 @@
+/* src/index.css */
+
+/* ========= Reset ========= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* ========= App Layout ========= */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========= Header (考试要求) ========= */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #eeeeee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logo {
+  margin: 15px;
+  width: 50px;
+  height: 50px;
+}
+
+.nav {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.nav-link.active {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.nav-separator {
+  margin: 0 5px;
+  color: #999;
+}
+
+/* ========= Main Content ========= */
+.main-content {
+  margin-top: 80px;
+  flex: 1;
+  min-height: calc(100vh - 130px);
+}
+
+/* ========= Footer (考试要求) ========= */
+.footer {
+  height: 50px;
+  background-color: #999999;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* ========= 响应式 (考试三个尺寸) ========= */
+/* 移动端: 600px */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 10px;
+  }
+  
+  .nav {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+}
+
+/* 平板: 1200px */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .main-content {
+    padding: 20px;
+  }
+}
+
+/* 桌面: 1800px */
+@media (min-width: 1201px) {
+  .main-content {
+    padding: 30px;
+  }
+}

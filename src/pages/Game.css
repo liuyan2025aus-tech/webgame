@@ -1,0 +1,238 @@
+/* src/pages/Game.css */
+/* 游戏通用样式（Common game styles）
+ * 说明: 提供通用布局、信息栏、按钮、网格/卡片等样式；各游戏页面复用。
+ * Note: Shared layout, info bar, controls, grid/card styles used across games.
+ */
+
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: calc(100vh - 130px);
+}
+
+.game-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2em;
+}
+
+/* 游戏信息栏 */
+.game-info {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-item span {
+  color: #6c757d;
+}
+
+.info-item strong {
+  color: #333;
+  font-size: 1.2em;
+}
+
+.status-idle { color: #6c757d; }
+.status-playing { color: #007bff; }
+.status-won { color: #28a745; }
+.status-lost { color: #dc3545; }
+
+/* 游戏板 */
+.game-board {
+  background: white;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.game-start,
+.game-over {
+  text-align: center;
+}
+
+.game-over h3 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.game-play-area {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Blanko 布局（12 格排布与输入框样式）/ Blanko 12-box layout ===== */
+.blanko-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.blanko-cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fdfdfd;
+}
+
+.blanko-char {
+  font-size: 20px;
+  color: #333;
+}
+
+.blanko-input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 20px;
+}
+
+/* 控制按钮（通用）/ Game control buttons */
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* 通用按钮样式 / Shared button styles */
+.btn-primary,
+.btn-secondary {
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+/* 网格布局（棋盘类游戏）/ Grid board layout */
+.grid-board {
+  display: grid;
+  gap: 2px;
+  background: #333;
+  padding: 2px;
+  margin: 20px auto;
+  width: fit-content;
+}
+
+.grid-cell {
+  background: white;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.grid-cell:hover {
+  background: #f0f0f0;
+}
+
+/* 卡片布局（翻牌类游戏）/ Card grid layout */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.card {
+  aspect-ratio: 1;
+  background: #007bff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* 响应式（移动/平板）/ Responsive rules */
+@media (max-width: 600px) {
+  .game-container {
+    padding: 10px;
+  }
+  
+  .game-title {
+    font-size: 1.5em;
+  }
+  
+  .game-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .game-board {
+    min-height: 300px;
+  }
+  
+  .game-controls {
+    flex-direction: column;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+  .game-board {
+    min-height: 350px;
+  }
+}
+/* 滑块拼图尺寸 / Sliding puzzle sizes */
+.puzzle-board {
+  grid-template-columns: repeat(3, 80px);
+}
+
+.puzzle-cell {
+  width: 80px;
+  height: 80px;
+  font-size: 20px;
+  font-weight: bold;
+}
