@@ -1,0 +1,146 @@
+// ============================================
+// 本地存储工具函数
+// ============================================
+
+// 获取剩余需要赢得的游戏数
+export const getScore = () => {
+  const score = localStorage.getItem('gamesRemaining');
+  return score ? parseInt(score) : null;
+};
+
+// 设置剩余需要赢得的游戏数
+export const setScore = (score) => {
+  localStorage.setItem('gamesRemaining', score.toString());
+};
+
+// 减少剩余游戏数（赢得一局游戏时调用）
+export const decrementScore = () => {
+  const current = getScore();
+  if (current !== null && current > 0) {
+    setScore(current - 1);
+    return current - 1;
+  }
+  return current;
+};
+
+// ============================================
+// Guess The Number 游戏数据
+// ============================================
+
+// 获取 Guess The Number 最佳分数
+export const getGuessStats = () => {
+  const stats = localStorage.getItem('guessTheNumberStats');
+  return stats ? JSON.parse(stats) : {
+    easy: { bestTime: 0, correct: 0, total: 0 },
+    medium: { bestTime: 0, correct: 0, total: 0 },
+    hard: { bestTime: 0, correct: 0, total: 0 }
+  };
+};
+
+// 保存 Guess The Number 统计数据
+export const saveGuessStats = (difficulty, timeLeft, won) => {
+  const stats = getGuessStats();
+  
+  // 更新最佳时间（只在赢的时候更新）
+  if (won && timeLeft > stats[difficulty].bestTime) {
+    stats[difficulty].bestTime = timeLeft;
+  }
+  
+  // 更新猜对次数和总次数
+  if (won) {
+    stats[difficulty].correct += 1;
+  }
+  stats[difficulty].total += 1;
+  
+  localStorage.setItem('guessTheNumberStats', JSON.stringify(stats));
+};
+
+// ============================================
+// Tic Tac Toe 游戏数据
+// ============================================
+
+// 获取 Tic Tac Toe 统计数据
+export const getTicTacToeStats = () => {
+  const stats = localStorage.getItem('ticTacToeStats');
+  return stats ? JSON.parse(stats) : {
+    player1Wins: 0,
+    player2Wins: 0,
+    totalGames: 0
+  };
+};
+
+// 保存 Tic Tac Toe 统计数据
+export const saveTicTacToeStats = (winner) => {
+  const stats = getTicTacToeStats();
+  
+  if (winner === 'O') {
+    stats.player1Wins += 1;
+  } else if (winner === 'X') {
+    stats.player2Wins += 1;
+  }
+  
+  stats.totalGames += 1;
+  
+  localStorage.setItem('ticTacToeStats', JSON.stringify(stats));
+};
+
+// ============================================
+// Seal The Box 游戏数据
+// ============================================
+
+// 获取 Seal The Box 最佳分数
+export const getSealTheBoxStats = () => {
+  const stats = localStorage.getItem('sealTheBoxStats');
+  return stats ? JSON.parse(stats) : {
+    bestScore: 0
+  };
+};
+
+// 保存 Seal The Box 统计数据
+export const saveSealTheBoxStats = (score) => {
+  const stats = getSealTheBoxStats();
+  
+  if (score > stats.bestScore) {
+    stats.bestScore = score;
+  }
+  
+  localStorage.setItem('sealTheBoxStats', JSON.stringify(stats));
+};
+
+// ============================================
+// 通用统计数据（所有游戏）
+// ============================================
+
+// 获取游戏次数统计
+export const getGamePlays = () => {
+  const plays = localStorage.getItem('gamePlays');
+  return plays ? JSON.parse(plays) : {
+    guessTheNumber: 0,
+    ticTacToe: 0,
+    sealTheBox: 0
+  };
+};
+
+// 增加游戏次数
+export const incrementGamePlay = (gameName) => {
+  const plays = getGamePlays();
+  plays[gameName] = (plays[gameName] || 0) + 1;
+  localStorage.setItem('gamePlays', JSON.stringify(plays));
+};
+
+// 获取游戏时间统计
+export const getGameTimes = () => {
+  const times = localStorage.getItem('gameTimes');
+  return times ? JSON.parse(times) : {
+    guessTheNumber: 0,
+    ticTacToe: 0,
+    sealTheBox: 0
+  };
+};
+
+// 添加游戏时间
+export const addGameTime = (gameName, seconds) => {
+  const times = getGameTimes();
+  times[gameName] = (times[gameName] || 0) + seconds;
+  localStorage.setItem('gameTimes', JSON.stringify(times));
+};
