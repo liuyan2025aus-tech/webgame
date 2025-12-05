@@ -1,1 +1,46 @@
-2
+2/* 重置默认样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body 样式：无边距 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* 主应用容器 */
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 主体内容区域（除了导航栏的所有空间） */
+.main-body {
+  background-color: #000;
+  color: #fff;
+  min-height: calc(100vh - 100px); /* 减去导航栏高度 */
+  padding-bottom: 100px; /* 为导航栏留出空间 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 响应式：小于 1400px */
+@media (max-width: 1399px) {
+  .main-body {
+    min-height: calc(100vh - 80px);
+    padding-bottom: 80px;
+  }
+}
+
+/* 响应式：小于 800px */
+@media (max-width: 799px) {
+  .main-body {
+    min-height: calc(100vh - 60px);
+    padding-bottom: 60px;
+  }
+}

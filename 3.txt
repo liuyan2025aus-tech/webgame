@@ -1,1 +1,73 @@
-3
+3import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import './Navbar.css';
+
+function Navbar() {
+  // 使用 state 来追踪屏幕宽度，实现响应式文本
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  // 监听窗口大小变化
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // 根据屏幕宽度返回对应的文本
+  const getNavText = () => {
+    if (screenWidth < 1400) {
+      return {
+        dashboard: 'Dash',
+        guess: 'Guess',
+        tic: 'Tic',
+        seal: 'Seal'
+      };
+    }
+    return {
+      dashboard: 'Dashboard',
+      guess: 'Guess The Number',
+      tic: 'Tic Tac Toe',
+      seal: 'Seal The Box'
+    };
+  };
+
+  const navText = getNavText();
+
+  return (
+    <nav className="navbar">
+      {/* Logo 框 */}
+      <div className="nav-item">
+        <img 
+          src="https://cdn-icons-png.flaticon.com/512/2917/2917995.png" 
+          alt="Logo" 
+          className="nav-logo" 
+        />
+      </div>
+
+      {/* Dashboard 链接 */}
+      <Link to="/dashboard" className="nav-item">
+        {navText.dashboard}
+      </Link>
+
+      {/* Guess The Number 链接 */}
+      <Link to="/game/guessthenumber" className="nav-item">
+        {navText.guess}
+      </Link>
+
+      {/* Tic Tac Toe 链接 */}
+      <Link to="/game/tictactoe" className="nav-item">
+        {navText.tic}
+      </Link>
+
+      {/* Seal The Box 链接 */}
+      <Link to="/game/sealthebox" className="nav-item">
+        {navText.seal}
+      </Link>
+    </nav>
+  );
+}
+
+export default Navbar;
