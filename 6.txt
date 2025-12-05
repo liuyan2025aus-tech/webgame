@@ -1,0 +1,109 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getScore, setScore } from '../utils/storage';
+import './Dashboard.css';
+
+function Dashboard() {
+  const navigate = useNavigate();
+  const [gamesRemaining, setGamesRemaining] = useState(0);
+  const [initialScore, setInitialScore] = useState(5);
+
+  // 组件加载时获取初始分数
+  useEffect(() => {
+    const fetchInitialScore = async () => {
+      try {
+        // 从 URL 获取初始分数
+        const response = await fetch('https://cgi.cse.unsw.edu.au/~cs6080/raw/data/score.json');
+        const data = await response.json();
+        const scoreFromAPI = data.score;
+        setInitialScore(scoreFromAPI);
+
+        // 检查本地存储中是否有分数
+        const savedScore = getScore();
+        if (savedScore === null) {
+          // 如果没有保存的分数，使用 API 的分数
+          setScore(scoreFromAPI);
+          setGamesRemaining(scoreFromAPI);
+        } else {
+          // 使用本地存储的分数
+          setGamesRemaining(savedScore);
+        }
+      } catch (error) {
+        console.error('获取分数失败:', error);
+        // 如果 API 失败，使用默认值 5
+        const savedScore = getScore();
+        if (savedScore === null) {
+          setScore(5);
+          setGamesRemaining(5);
+        } else {
+          setGamesRemaining(savedScore);
+        }
+      }
+    };
+
+    fetchInitialScore();
+  }, []);
+
+  // 监听分数变化（当用户赢得游戏时）
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const currentScore = getScore();
+      if (currentScore !== null) {
+        setGamesRemaining(currentScore);
+        
+        // 如果分数到 0，显示祝贺消息并重置
+        if (currentScore === 0) {
+          setTimeout(() => {
+            alert('Congratulations!');
+            setScore(initialScore);
+            setGamesRemaining(initialScore);
+          }, 100);
+        }
+      }
+    };
+
+    // 监听自定义事件（当其他页面更新分数时）
+    window.addEventListener('scoreUpdated', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('scoreUpdated', handleStorageChange);
+    };
+  }, [initialScore]);
+
+  // 重置按钮点击处理
+  const handleReset = async () => {
+    try {
+      // 重新从 API 获取初始分数
+      const response = await fetch('https://cgi.cse.unsw.edu.au/~cs6080/raw/data/score.json');
+      const data = await response.json();
+      const scoreFromAPI = data.score;
+      setInitialScore(scoreFromAPI);
+      setScore(scoreFromAPI);
+      setGamesRemaining(scoreFromAPI);
+    } catch (error) {
+      console.error('重置分数失败:', error);
+      // 如果 API 失败，使用当前的 initialScore
+      setScore(initialScore);
+      setGamesRemaining(initialScore);
+    }
+  };
+
+  return (
+    <div className="main-body">
+      {/* Stats 按钮 */}
+      <button className="stats-button" onClick={() => navigate('/statspanel')}>
+        Stats
+      </button>
+
+      <div className="dashboard-content">
+        <div className="text-line">Choose your option from the navbar.</div>
+        <div className="text-line">Games you need to win: {gamesRemaining}</div>
+        <button className="reset-button" onClick={handleReset}>
+          Reset
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Dashboard;
